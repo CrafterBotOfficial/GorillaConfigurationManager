@@ -5,10 +5,15 @@ namespace GorillaConfigurationManager.ValueEditHandler;
 
 public class EnumHandler : IEditHandler
 {
-    public string GetHeader() => "Select an option";
+    public string GetHeader() => "Select an option: ";
 
     public string[] Options;
     private int selectIndex;
+
+    public EnumHandler(string[] names)
+    {
+        Options = names;
+    }
 
     public void OnManipulate(ref string text, EKeyboardKey key)
     {

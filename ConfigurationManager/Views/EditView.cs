@@ -37,14 +37,17 @@ public class EditView : ComputerView
     private void UpdateText()
     {
         var stringBuilder = new StringBuilder();
+
         stringBuilder.BeginCenter();
         stringBuilder.Append(entry.Definition.Key);
         stringBuilder.EndAlign();
-        stringBuilder.AppendLines(1);
+
+        stringBuilder.AppendLines(2);
         stringBuilder.Append(editHandler.GetHeader());
         stringBuilder.Append(text);
-        stringBuilder.AppendLines(1);
-        string acceptable = entry.Description.AcceptableValues != null
+        stringBuilder.AppendLines(2);
+
+        string acceptable = entry.Description.AcceptableValues is not null
             ? "Accepted: " + entry.Description.AcceptableValues.ToDescriptionString()
             : $"Enter a {entry.SettingType.Name}";
         stringBuilder.AppendLine(acceptable);
@@ -55,6 +58,7 @@ public class EditView : ComputerView
     {
         if (key == EKeyboardKey.Enter)
         {
+            Main.Log("Setting value to " + text);
             ConfigManager.Instance.SetValue(entry, text);
             UpdateText();
             return;
@@ -80,9 +84,9 @@ public class EditView : ComputerView
 
     private IEditHandler GetEditHandlerForType(Type type) => type switch
     {
-        _ when type == typeof(string) || type.IsEnum => new EnumHandler() { Options = Enum.GetNames(entry.SettingType) },
+        _ when type.IsEnum => new EnumHandler(Enum.GetNames(entry.SettingType)),
         _ when type == typeof(bool) => new BoolHandler(),
-        _ when type == typeof(int) || type == typeof(float) || type == typeof(double) || type == typeof(decimal) || type == typeof(long) || type == typeof(short) => new NumberHandler(),
-        _ => new TextHandler()
+        _ when type == typeof(int) || type == typeof(float) || type == typeof(double) || type == typeof(decimal) || type == typeof(long) || type == typeof(short) => new NumberHandler(text),
+        _ => new TextHandler(text),
     };
 }

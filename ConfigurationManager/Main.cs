@@ -11,6 +11,9 @@ public class Main : BaseUnityPlugin
     private void Awake()
     {
         instance = this;
+#if DEBUG
+        Tests.DebugConfig.Test();
+#endif
     }
 
     public static void Log(object message, LogLevel level = LogLevel.Info)

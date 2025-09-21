@@ -2,24 +2,34 @@ using System;
 using System.Linq;
 using ComputerInterface;
 using ComputerInterface.Extensions;
+using ComputerInterface.ViewLib;
 
 namespace GorillaConfigurationManager.ValueEditHandler;
 
 public class NumberHandler : IEditHandler
 {
-    public string GetHeader() => "Enter a valid Number:";
+    public string GetHeader() => "Enter a valid Number: ";
+
+    private UITextInputHandler textInputHandler;
+
+    public NumberHandler(string defaultValue)
+    {
+        textInputHandler = new UITextInputHandler();
+        textInputHandler.Text = defaultValue;
+    }
 
     public void OnManipulate(ref string text, EKeyboardKey key)
     {
-        if (key.IsNumberKey())
+        if (key == EKeyboardKey.Space)
         {
-            text += Enum.GetName(typeof(EKeyboardKey), key).Skip(3).ToString(); // numbers start with num<1>
+            textInputHandler.Text += ".";
+            text += ".";
             return;
         }
 
-        if (key == EKeyboardKey.Space)
+        if (key.IsNumberKey() || key == EKeyboardKey.Delete && textInputHandler.HandleKey(key))
         {
-            text += ".";
+            text = textInputHandler.Text;
             return;
         }
     }

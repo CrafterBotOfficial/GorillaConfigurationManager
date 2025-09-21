@@ -10,9 +10,10 @@ public class TextHandler : IEditHandler
 {
     private UITextInputHandler textInputHandler;
 
-    public TextHandler()
+    public TextHandler(string text)
     {
         textInputHandler = new UITextInputHandler();
+        textInputHandler.Text = text;
     }
 
     public string GetHeader() => "Text: ";

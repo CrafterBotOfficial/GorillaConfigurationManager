@@ -29,7 +29,7 @@ public class SelectView : ComputerView
         }
 
         pageHandler = new UIElementPageHandler<LineElement>();
-        pageHandler.EntriesPerPage = 5;
+        pageHandler.EntriesPerPage = 8;
         pageHandler.SetElements(Lines.ToArray());
 
         selectionHandler = new UISelectionHandler(EKeyboardKey.Up, EKeyboardKey.Down, EKeyboardKey.Enter);
@@ -57,11 +57,14 @@ public class SelectView : ComputerView
             return new StringBuilder("Error: No lines");
         }
 
+        pageHandler.MovePageToIdx(selectionHandler.CurrentSelectionIndex);
+
         var builder = new StringBuilder(Header);
         builder.AppendLines(1);
 
-        pageHandler.EnumarateElements((line, index) =>
+        pageHandler.EnumarateElements((line, relativeIndex) =>
         {
+            int index = pageHandler.GetAbsoluteIndex(pageHandler.CurrentPage, relativeIndex);
             string color = index % 2 == 0 ? "white" : "#ffffff50";
             string text = selectionHandler.GetIndicatedText(index, $"<color={color}>{line.Name}</color>");
             builder.AppendLine(text);
@@ -73,7 +76,7 @@ public class SelectView : ComputerView
     // public new virtual void OnKeyPressed(EKeyboardKey key)
     public override void OnKeyPressed(EKeyboardKey key)
     {
-        if (pageHandler.HandleKeyPress(key) || selectionHandler.HandleKeypress(key))
+        if (selectionHandler.HandleKeypress(key))
         {
             SetText(GetContent());
             return;
