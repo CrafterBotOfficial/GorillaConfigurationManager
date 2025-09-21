@@ -8,8 +8,6 @@ namespace GorillaConfigurationManager.ValueEditHandler;
 
 public class NumberHandler : IEditHandler
 {
-    public string GetHeader() => "Enter a valid Number: ";
-
     private UITextInputHandler textInputHandler;
 
     public NumberHandler(string defaultValue)
@@ -27,10 +25,15 @@ public class NumberHandler : IEditHandler
             return;
         }
 
-        if (key.IsNumberKey() || key == EKeyboardKey.Delete && textInputHandler.HandleKey(key))
+        if ((key.IsNumberKey() || key == EKeyboardKey.Delete) && textInputHandler.HandleKey(key))
         {
             text = textInputHandler.Text;
             return;
         }
+    }
+
+    public string GetTooltip()
+    {
+        return "Use space to make a decimal";
     }
 }

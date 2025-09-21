@@ -43,14 +43,15 @@ public class EditView : ComputerView
         stringBuilder.EndAlign();
 
         stringBuilder.AppendLines(2);
-        stringBuilder.Append(editHandler.GetHeader());
         stringBuilder.Append(text);
-        stringBuilder.AppendLines(2);
 
-        string acceptable = entry.Description.AcceptableValues is not null
-            ? "Accepted: " + entry.Description.AcceptableValues.ToDescriptionString()
-            : $"Enter a {entry.SettingType.Name}";
-        stringBuilder.AppendLine(acceptable);
+        // footer
+        const int footer_height = 4;
+        stringBuilder.AppendLines(SCREEN_HEIGHT - footer_height);
+        stringBuilder.AppendLine(new string('=', ComputerView.SCREEN_WIDTH));
+        stringBuilder.AppendLine("Enter a " + entry.SettingType.Name);
+        stringBuilder.AppendLine("Press enter to save");
+        stringBuilder.AppendLine(editHandler.GetTooltip());
         SetText(stringBuilder);
     }
 

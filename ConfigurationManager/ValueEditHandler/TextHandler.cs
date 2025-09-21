@@ -16,13 +16,16 @@ public class TextHandler : IEditHandler
         textInputHandler.Text = text;
     }
 
-    public string GetHeader() => "Text: ";
-
     public void OnManipulate(ref string text, EKeyboardKey key)
     {
         if (textInputHandler.HandleKey(key))
         {
             text = textInputHandler.Text;
         }
+    }
+
+    public string GetTooltip()
+    {
+        return string.Empty;
     }
 }

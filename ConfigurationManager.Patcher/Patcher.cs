@@ -33,15 +33,6 @@ internal static class Patcher
         ConfigFiles.Configs.Add(info);
     }
 
-    [HarmonyPatch(typeof(ConfigFile), argumentTypes: [typeof(string), typeof(bool)], methodType: MethodType.Constructor)]
-    [HarmonyPostfix]
-    private static void ConfigFile_Untracked_Constructor_Patch(BepInEx.Configuration.ConfigFile __instance, string configPath, bool saveOnInit)
-    {
-        _logger.LogInfo("New untracked config file. Tip: Use the provided config file in the baseunityplugin instead of making your own manually -_-");
-        var info = new ConfigFileData(null, __instance);
-        ConfigFiles.Configs.Add(info);
-    }
-
 #if DEBUG
     private static void DumpMethods(Mono.Cecil.TypeDefinition type)
     {

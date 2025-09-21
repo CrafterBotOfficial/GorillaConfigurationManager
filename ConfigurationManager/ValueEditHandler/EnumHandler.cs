@@ -5,8 +5,6 @@ namespace GorillaConfigurationManager.ValueEditHandler;
 
 public class EnumHandler : IEditHandler
 {
-    public string GetHeader() => "Select an option: ";
-
     public string[] Options;
     private int selectIndex;
 
@@ -19,5 +17,10 @@ public class EnumHandler : IEditHandler
     {
         selectIndex++;
         text = Options[selectIndex % Options.Length];
+    }
+
+    public string GetTooltip()
+    {
+        return string.Empty;
     }
 }
