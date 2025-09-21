@@ -26,7 +26,7 @@
         <Reference Include="Assembly-CSharp" Publicize="true">
             <HintPath>$(GORILLATAG_PATH)\Gorilla Tag_Data\Managed\Assembly-CSharp.dll</HintPath>
         </Reference>
-        <Reference Include="BepInEx">
+        <Reference Include="BepInEx" Publicize="true">
             <HintPath>$(GORILLATAG_PATH)\BepInEx\core\BepInEx.dll</HintPath>
         </Reference>
         <Reference Include="Mono.Cecil">

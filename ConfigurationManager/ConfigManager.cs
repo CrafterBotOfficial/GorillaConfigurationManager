@@ -22,7 +22,7 @@ public class ConfigManager
         object converted = entry.DefaultValue;
         try
         {
-            Convert.ChangeType(newValue, entry.SettingType);
+            converted = Convert.ChangeType(newValue, entry.SettingType);
         }
         catch
         {
@@ -39,7 +39,11 @@ public class ConfigManager
 
     public IEnumerable<ConfigFileData> GetConfigs()
     {
-        var datas = Patcher.ConfigFiles.Configs;
+        var datas = new List<ConfigFileData>()
+        {
+            new(null, BepInEx.Configuration.ConfigFile.CoreConfig)
+        };
+        datas.AddRange(Patcher.ConfigFiles.Configs);
         var configs = datas.Where(data => data.Config?.Count != 0);
         return configs;
     }

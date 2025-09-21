@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <Target AfterTargets="Build" Name="Output">
+        <Copy SourceFiles="$(TargetPath)" DestinationFiles="$(GORILLATAG_PATH)/BepInEx/patchers/ConfigurationManager.Patcher.dll" />
+    </Target>
+
+    <ItemGroup>
+        <Reference Include="BepInEx">
+            <HintPath>$(GORILLATAG_PATH)\BepInEx\core\BepInEx.dll</HintPath>
+        </Reference>
+        <Reference Include="HarmonyLib">
+            <HintPath>$(GORILLATAG_PATH)\BepInEx\core\0Harmony.dll</HintPath>
+        </Reference>
+        <Reference Include="Mono.Cecil">
+            <HintPath>$(GORILLATAG_PATH)\BepInEx\core\Mono.Cecil.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+</Project>

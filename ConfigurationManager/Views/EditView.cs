@@ -28,14 +28,14 @@ public class EditView : ComputerView
         }
 
         entry = entryBase;
-        text = Convert.ToString(entry.BoxedValue);
+        text = entry.BoxedValue.ToString().ToLower();
+        editHandler = GetEditHandlerForType(entry.SettingType);
 
-        UpdateText(); // TODO Add event callback
+        UpdateText();
     }
 
-    public void UpdateText()
+    private void UpdateText()
     {
-        Main.Log("Setting text for edit view");
         var stringBuilder = new StringBuilder();
         stringBuilder.BeginCenter();
         stringBuilder.Append(entry.Definition.Key);
@@ -44,7 +44,10 @@ public class EditView : ComputerView
         stringBuilder.Append(editHandler.GetHeader());
         stringBuilder.Append(text);
         stringBuilder.AppendLines(1);
-        stringBuilder.AppendLine(entry.Description.AcceptableValues is not null ? "Accepted: " + entry.Description.AcceptableValues.ToDescriptionString() : "Enter a " + entry.SettingType.Name);
+        string acceptable = entry.Description.AcceptableValues != null
+            ? "Accepted: " + entry.Description.AcceptableValues.ToDescriptionString()
+            : $"Enter a {entry.SettingType.Name}";
+        stringBuilder.AppendLine(acceptable);
         SetText(stringBuilder);
     }
 
@@ -53,12 +56,14 @@ public class EditView : ComputerView
         if (key == EKeyboardKey.Enter)
         {
             ConfigManager.Instance.SetValue(entry, text);
+            UpdateText();
             return;
         }
 
         if (key == EKeyboardKey.Option1)
         {
             entry.BoxedValue = entry.DefaultValue;
+            text = entry.BoxedValue.ToString().ToLower();
             UpdateText();
             return;
         }
@@ -72,4 +77,12 @@ public class EditView : ComputerView
         editHandler.OnManipulate(ref text, key);
         UpdateText();
     }
+
+    private IEditHandler GetEditHandlerForType(Type type) => type switch
+    {
+        _ when type == typeof(string) || type.IsEnum => new EnumHandler() { Options = Enum.GetNames(entry.SettingType) },
+        _ when type == typeof(bool) => new BoolHandler(),
+        _ when type == typeof(int) || type == typeof(float) || type == typeof(double) || type == typeof(decimal) || type == typeof(long) || type == typeof(short) => new NumberHandler(),
+        _ => new TextHandler()
+    };
 }
