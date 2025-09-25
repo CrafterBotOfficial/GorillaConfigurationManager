@@ -70,6 +70,7 @@ public class SelectView : ComputerView
             builder.AppendLine(text);
         });
 
+        pageHandler.AppendFooter(builder);
         return builder;
     }
 

@@ -11,6 +11,11 @@ public class BoolHandler : IEditHandler
         text = (!textBoolean).ToString();
     }
 
+    public void Reset(string defaultValue)
+    {
+
+    }
+
     public string GetTooltip()
     {
         return "(true/false)";

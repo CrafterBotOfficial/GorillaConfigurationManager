@@ -36,22 +36,17 @@ public class EditView : ComputerView
 
     private void UpdateText()
     {
-        var stringBuilder = new StringBuilder();
+        var stringBuilder = new StringBuilder()
+            .BeginCenter()
+            .AppendLine(entry.Definition.Key)
+            .EndAlign()
+            .AppendLine("Press enter to save")
+            .AppendLine("Press option1 to reset")
+            .AppendLine(new string('=', SCREEN_WIDTH));
 
-        stringBuilder.BeginCenter();
-        stringBuilder.Append(entry.Definition.Key);
-        stringBuilder.EndAlign();
+        stringBuilder.AppendLines(1);
+        stringBuilder.AppendLine("Value: " + text);
 
-        stringBuilder.AppendLines(2);
-        stringBuilder.Append(text);
-
-        // footer
-        const int footer_height = 4;
-        stringBuilder.AppendLines(SCREEN_HEIGHT - footer_height);
-        stringBuilder.AppendLine(new string('=', ComputerView.SCREEN_WIDTH));
-        stringBuilder.AppendLine("Enter a " + entry.SettingType.Name);
-        stringBuilder.AppendLine("Press enter to save");
-        stringBuilder.AppendLine(editHandler.GetTooltip());
         SetText(stringBuilder);
     }
 
@@ -69,6 +64,7 @@ public class EditView : ComputerView
         {
             entry.BoxedValue = entry.DefaultValue;
             text = entry.BoxedValue.ToString().ToLower();
+            editHandler.Reset(text);
             UpdateText();
             return;
         }

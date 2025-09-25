@@ -24,6 +24,11 @@ public class TextHandler : IEditHandler
         }
     }
 
+    public void Reset(string defaultValue)
+    {
+        textInputHandler.Text = defaultValue;
+    }
+
     public string GetTooltip()
     {
         return string.Empty;

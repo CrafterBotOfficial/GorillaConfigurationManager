@@ -32,6 +32,11 @@ public class NumberHandler : IEditHandler
         }
     }
 
+    public void Reset(string defaultValue)
+    {
+        textInputHandler.Text = defaultValue;
+    }
+
     public string GetTooltip()
     {
         return "Use space to make a decimal";
