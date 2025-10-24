@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
+using BepInEx.Configuration;
 using ComputerInterface;
+using ComputerInterface.Enumerations;
 
 namespace GorillaConfigurationManager.ValueEditHandler;
 
@@ -17,7 +19,11 @@ public class EnumHandler : IEditHandler
     public void OnManipulate(ref string text, EKeyboardKey key)
     {
         selectIndex++;
-        text = Options[selectIndex % Options.Length];
+        text = Options[GetIndex()];
+    }
+
+    public void OnSet(string text, ConfigEntryBase entry) {
+        entry.BoxedValue = GetIndex();
     }
 
     public void Reset(string defaultValue)
@@ -33,5 +39,9 @@ public class EnumHandler : IEditHandler
     public string GetTooltip()
     {
         return string.Empty;
+    }
+
+    public int GetIndex() {
+        return selectIndex % Options.Length;
     }
 }

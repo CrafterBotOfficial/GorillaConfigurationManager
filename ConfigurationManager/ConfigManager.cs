@@ -17,21 +17,6 @@ public class ConfigManager
 
     }
 
-    public bool SetValue(ConfigEntryBase entry, string newValue)
-    {
-        object converted = entry.DefaultValue;
-        try
-        {
-            converted = Convert.ChangeType(newValue, entry.SettingType);
-        }
-        catch
-        {
-            return false;
-        }
-        entry.BoxedValue = converted;
-        return true;
-    }
-
     public ConfigFileData GetData(ConfigEntryBase entry)
     {
         return GetConfigs().FirstOrDefault(x => x.Config == entry.ConfigFile);

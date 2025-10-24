@@ -1,8 +1,10 @@
 using System;
 using System.Linq;
+using BepInEx.Configuration;
 using ComputerInterface;
+using ComputerInterface.Enumerations;
 using ComputerInterface.Extensions;
-using ComputerInterface.ViewLib;
+using ComputerInterface.Models.UI;
 
 namespace GorillaConfigurationManager.ValueEditHandler;
 
@@ -22,6 +24,10 @@ public class TextHandler : IEditHandler
         {
             text = textInputHandler.Text;
         }
+    }
+
+    public void OnSet(string text, ConfigEntryBase entry) {
+        entry.BoxedValue = textInputHandler.Text;
     }
 
     public void Reset(string defaultValue)

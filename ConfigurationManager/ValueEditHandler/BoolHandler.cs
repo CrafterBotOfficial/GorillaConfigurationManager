@@ -1,5 +1,7 @@
 using System;
+using BepInEx.Configuration;
 using ComputerInterface;
+using ComputerInterface.Enumerations;
 
 namespace GorillaConfigurationManager.ValueEditHandler;
 
@@ -11,9 +13,12 @@ public class BoolHandler : IEditHandler
         text = (!textBoolean).ToString();
     }
 
+    public void OnSet(string text, ConfigEntryBase entry) {
+        entry.BoxedValue = Convert.ToBoolean(text);
+    }
+
     public void Reset(string defaultValue)
     {
-
     }
 
     public string GetTooltip()

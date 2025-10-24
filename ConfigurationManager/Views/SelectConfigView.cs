@@ -2,7 +2,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using ComputerInterface;
-using ComputerInterface.ViewLib;
 
 namespace GorillaConfigurationManager.Views;
 

@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ComputerInterface;
+using ComputerInterface.Enumerations;
 using ComputerInterface.Extensions;
-using ComputerInterface.ViewLib;
+using ComputerInterface.Models;
+using ComputerInterface.Models.UI;
+using ComputerInterface.Views;
 
 namespace GorillaConfigurationManager.Views;
 
@@ -62,7 +65,7 @@ public class SelectView : ComputerView
         var builder = new StringBuilder(Header);
         builder.AppendLines(1);
 
-        pageHandler.EnumarateElements((line, relativeIndex) =>
+        pageHandler.EnumerateElements((line, relativeIndex) =>
         {
             int index = pageHandler.GetAbsoluteIndex(pageHandler.CurrentPage, relativeIndex);
             string color = index % 2 == 0 ? "white" : "#ffffff50";

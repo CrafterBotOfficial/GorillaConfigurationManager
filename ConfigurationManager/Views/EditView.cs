@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using BepInEx.Configuration;
 using ComputerInterface;
+using ComputerInterface.Enumerations;
 using ComputerInterface.Extensions;
-using ComputerInterface.ViewLib;
+using ComputerInterface.Models;
+using ComputerInterface.Views;
 using GorillaConfigurationManager.ValueEditHandler;
 
 namespace GorillaConfigurationManager.Views;
 
-public class EditView : ComputerView
+public class EditView : ComputerView 
 {
     private ConfigEntryBase entry;
     private IEditHandler editHandler;
@@ -42,7 +44,7 @@ public class EditView : ComputerView
             .EndAlign()
             .AppendLine("Press enter to save")
             .AppendLine("Press option1 to reset")
-            .AppendLine(new string('=', SCREEN_WIDTH));
+            .AppendLine(new string('=', ScreenWidth));
 
         stringBuilder.AppendLines(1);
         stringBuilder.AppendLine("Value: " + text);
@@ -55,7 +57,7 @@ public class EditView : ComputerView
         if (key == EKeyboardKey.Enter)
         {
             Main.Log("Setting value to " + text);
-            ConfigManager.Instance.SetValue(entry, text);
+            editHandler.OnSet(text, entry);
             UpdateText();
             return;
         }

@@ -1,5 +1,5 @@
 using System.Linq;
-using ComputerInterface.ViewLib;
+using ComputerInterface.Models;
 
 namespace GorillaConfigurationManager.Views;
 

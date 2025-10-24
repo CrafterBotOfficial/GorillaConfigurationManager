@@ -6,11 +6,17 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <Target AfterTargets="Build" Name="Output">
+    <Target Condition="'$(CI)'!='TRUE'" AfterTargets="Build" Name="Output">
         <Copy SourceFiles="$(TargetPath)" DestinationFiles="$(GORILLATAG_PATH)/BepInEx/patchers/ConfigurationManager.Patcher.dll" />
     </Target>
 
-    <ItemGroup>
+    <!-- Dependencies -->
+    <ItemGroup Condition="'$(CI)'=='TRUE'">
+        <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.2" PrivateAssets="all" />
+        <PackageReference Publicize="true" Include="gorillatag" Version="1.0.*"/>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(CI)'!='TRUE'">
         <Reference Include="BepInEx">
             <HintPath>$(GORILLATAG_PATH)\BepInEx\core\BepInEx.dll</HintPath>
         </Reference>
